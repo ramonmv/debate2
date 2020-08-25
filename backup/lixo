@@ -1,0 +1,13 @@
+--
+-- Table structure for table `posicionamento`
+--
+
+CREATE TABLE IF NOT EXISTS `posicionamento` (
+  `argumentador_idargumentador` int(11) NOT NULL,
+  `tese_idtese` int(11) NOT NULL,
+  `posicionamentofinal` text collate utf8_unicode_ci,
+  PRIMARY KEY  (`tese_idtese`,`argumentador_idargumentador`),
+  KEY `fk_posicionamento_tese1` (`tese_idtese`),
+  KEY `fk_posicionamento_argumentador1` (`argumentador_idargumentador`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=FIXED;
+

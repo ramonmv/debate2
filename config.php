@@ -32,9 +32,9 @@ $host = 'http://' . $_SERVER['SERVER_NAME'].'/'.$diretorio ;
 //$hostBD = "localhost"; $userBD = "debateteses"; $senhaBD = "credine&rosane"; $databaseBD = "debateteses";
 //$host = 'http://www.pead.faced.ufrgs.br/sites/cms/debateteses'; 
 
-// ini_set('display_errors',1);
-// ini_set('display_startup_errors',1);
-// error_reporting(1);
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(1);
 
 // $manutencao = true;
 
@@ -47,7 +47,7 @@ $host = 'http://' . $_SERVER['SERVER_NAME'].'/'.$diretorio ;
 //
 // ini_set('display_errors',);
 // ini_set('display_startup_errors',0);
-error_reporting(-2);
+// error_reporting(-2);
 
 if(!isset($idpaginaconfig)) { $idpaginaconfig = 0;}
 

@@ -84,20 +84,20 @@ Class EnvioEmail
 		$this->mail->IsSMTP(); // Define que a mensagem será SMTP
         $this->mail->CharSet = "UTF-8";
         // $this->mail->SMTPDebug   = SMTP::DEBUG_SERVER;                  // enable SMTP authentication
-        $this->mail->SMTPAuth   = true;                  // enable SMTP authentication
-        $this->mail->Host       = 'smtp.gmail.com';      // sets GMAIL as the SMTP server
-        $this->mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-        $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // set the SMTP port for the GMAIL server
+        // $this->mail->SMTPAuth   = true;                  // enable SMTP authentication
+        $this->mail->Host       = 'relay.ufrgs.br';      // sets GMAIL as the SMTP server
+        $this->mail->Port       = 25;                   // set the SMTP port for the GMAIL server
+        // $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // set the SMTP port for the GMAIL server
         
-        $this->mail->Username   = "peadfaced@gmail.com";  // GMAIL username
-        $this->mail->Password   = "peadfaced.";            // GMAIL password
+        // $this->mail->Username   = "peadfaced@gmail.com";  // GMAIL username
+        // $this->mail->Password   = "peadfaced.";            // GMAIL password
 
         
-        $this->mail->SetFrom('peadfaced@gmail.com', 'Suporte Debate de Teses');
+        $this->mail->SetFrom('naoresponda@servidor.nuvem.ufrgs.br', 'naoresponda@servidor.nuvem.ufrgs.br');
         // $this->mail->addReplyTo('peadfaced@gmail.com', 'Suporte Debate de Teses');
 
         $this->mail->Subject    = $assunto;
-        $this->mail->AltBody    = "Para visualizar esta mensagem, é necessário um habilitar o uso do HTML, ou utilizar um webmail compatível "; // optional, comment out and test
+        $this->mail->AltBody    = "Para visualizar esta mensagem, é necessário habilitar o uso do HTML, ou utilizar um webmail compatível "; // optional, comment out and test
 
         // $this->mail->MsgHTML($corpo);
         $this->mail->Body = $corpo;

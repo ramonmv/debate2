@@ -7,6 +7,7 @@ $dd->recuperarGrupo($idgrupo);
 $criador = $dd->recuperarUsuario(null, $dd->grupo["idusuario"]);
 $debatesIndividuais = $dd->recuperarDebatesPorGrupo($idgrupo);
 $debatesIndividuais = $dd->filtrarDebatesAtivos($debatesIndividuais, 1);
+// $debatesIndividuais = $dd->removerPaginaMediador($debatesIndividuais,$criador['idusuario']); //remoçao ocorre pelo id do usuario criador do grupo
 //print_r($debatesIndividuais);
 //print_r($dd->grupo);
 ?>
@@ -18,7 +19,7 @@ $debatesIndividuais = $dd->filtrarDebatesAtivos($debatesIndividuais, 1);
                     <div class="col-xs-12">
                         <div class="box">
                             <div class="box-content">
-                                <p class="page-header">Está página possui a relação de todas as páginas de debates dos argumentadores </p>
+                                <p class="page-header">Esta página possui a relação de todas as páginas de debates dos argumentadores </p>
                                 <h3><code>Grupo de Debate</code></h3>
                                 <p>                                      
                                 <pre>Título: <strong> <?php echo $dd->grupo["titulo"]; ?></strong><br/>Criado em: <?php echo $dd->grupo["dataini_br"]; ?><br/>Período: <?php echo $dd->grupo["dataini_br"] . " - " . $dd->grupo["datafim_br"] ?> <br/>Mediador: <?php echo $criador["nomeCompleto"]; ?> <br/>N&ordm; Participantes: <?php echo count($debatesIndividuais) . " participantes"; ?>

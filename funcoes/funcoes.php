@@ -526,24 +526,48 @@ function apresentaTabelaRelacaoDebateGrupo($dd) {
 
 function apresentaNotificacao() {
 
-    // print_r($_SESSION);
+      // var_dump(!empty($_SESSION["error"]) );
+      // var_dump(!isset($_SESSION["error"]) );
+      // var_dump(!is_null($_SESSION["error"]) );
+        
+                //     print_r($_SESSION);
+    
 
-    if (!is_null($_SESSION["msg"])) {
-        $msg = $_SESSION["msg"];
-        $type = "success";
+     // die("bummmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+    // $msg = $_SESSION["error"];
+    // $type = "error";
+    // scriptNotificacao($msg, $type);
 
-        scriptNotificacao($msg, $type);
+
+
+    if ( (!empty($_SESSION["error"])) && (isset($_SESSION["error"])) && (!is_null($_SESSION["error"])) ) 
+    {
+            $msg = $_SESSION["error"];
+            $type = "error";
+            scriptNotificacao($msg, $type);
+            // $_SESSION["error"] = null;
+            // $_SESSION["msg"] = null;
     }
-    if (!is_null($_SESSION["error"])) {
-        $msg = $_SESSION["error"];
-        $type = "error";
 
-        scriptNotificacao($msg, $type);
+    else {
+ // die("bummmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+        if ( (!empty($_SESSION["msg"])) && (isset($_SESSION["msg"])) && (!is_null($_SESSION["msg"])) ) 
+        {
+            $msg = $_SESSION["msg"];
+            $type = "success";
+ 
+            scriptNotificacao($msg, $type);
+            // $_SESSION["error"] = null;
+            // $_SESSION["msg"] = null;
+        }
+            // $_SESSION["error"] = null;
+            // $_SESSION["msg"] = null;
     }
-    $_SESSION["error"] = null;
-    $_SESSION["msg"] = null;
-    unset($_SESSION["msg"]);
-    unset($_SESSION["error"]);
+    // $_SESSION["error"] = null;
+    // $_SESSION["msg"] = null;
+    
+    
+    
 }
 
 function scriptNotificacao($msg, $type) {
@@ -555,7 +579,7 @@ function scriptNotificacao($msg, $type) {
         var n = noty({
             text: '<?php echo $msg; ?>',
             type: '<?php echo $type; ?>',
-            timeout: 6000,
+            timeout: 7000,
             //  theme: 'defaultTheme',
             closeWith: ['click'],
             layout: 'topCenter',
@@ -572,6 +596,7 @@ function scriptNotificacao($msg, $type) {
     </script>
 
     <?php
+    
 }
 
 //

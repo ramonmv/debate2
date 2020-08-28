@@ -5,10 +5,10 @@
 
 //   LOCALHOST ===============================================================================================================
 //$hostBD = "localhost"; $userBD = "root"; $senhaBD = "password"; $databaseBD = "debateteses";
-$hostBD = "mysql"; $userBD = "root"; $senhaBD = "amadis"; $databaseBD = "debate";
+$hostBD = "localhost"; $userBD = "root"; $senhaBD = "password"; $databaseBD = "debate";
 //$host = "http://192.168.0.102/debatelocal"; 
 // $host = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-$diretorio = 'debate2';
+$diretorio = 'sites/debate';
 
 $host = 'http://' . $_SERVER['SERVER_NAME'].'/'.$diretorio ;
 
@@ -31,20 +31,22 @@ $host = 'http://' . $_SERVER['SERVER_NAME'].'/'.$diretorio ;
 //$hostBD = "localhost"; $userBD = "debateteses"; $senhaBD = "credine&rosane"; $databaseBD = "debateteses";
 //$host = 'http://www.pead.faced.ufrgs.br/sites/cms/debateteses'; 
 
-ini_set('display_errors',1);
-ini_set('display_startup_errors',1);
-error_reporting(1);
+// ini_set('display_errors',1);
+// ini_set('display_startup_errors',1);
+// error_reporting(1);
 
 // $manutencao = true;
 
-// ini_set('display_errors', 1); 
-// ini_set('display_startup_errors', 1); 
+// ini_set('display_errors', 0); 
+// ini_set('display_startup_errors', 0); 
+
+
 // // error_reporting(E_ALL & ~E_NOTICE);
 // error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 //
 // ini_set('display_errors',);
 // ini_set('display_startup_errors',0);
-// error_reporting(-2);
+error_reporting(-2);
 
 if(!isset($idpaginaconfig)) { $idpaginaconfig = 0;}
 

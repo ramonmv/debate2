@@ -44,31 +44,84 @@ class sistemaDebate {
      * 
      */
     function verificaLogon($redirecionamento = TRUE) {
+ 
         if (($_SESSION['logon'] == false) || (!isset($_SESSION['logon']))) {
+
+            
+ 
             if ($redirecionamento) {
-                //header('location:' . $this->paginaLogin . 'idm=652&erro=Usuário/senha inválido');
-                $_SESSION["msg"] = null;
-                if (isset($_GET["erro"])) {
-                    $_SESSION["error"] = "Login não realizado. <br>Verifique seus dados e tente novamente!!!!";
-                }
+                //header('location:' . $this->paginaLogin . 'idm=652&erro=Usuário/senha inválido');           
+                
+ 
                 header('location:' . $this->paginaLogin);
             }
-            return FALSE;
-        } else {
 
+            return FALSE;
+        } 
+
+        else 
+        {
             $this->login = $_SESSION['login'];
             $this->senha = $_SESSION['senha'];
             return TRUE;
         }
     }
 
-    function efetuarLogin($login, $senha, $idpagina = null) {
 
-
-	
-        $qtd_debates = $this->recuperarDebatesPorLogin($login, $senha);
+  //VERSAO 2
+ function efetuarLogin($login, $senha, $idpagina = null) {
+    
+        // $qtd_debates = $this->recuperarDebatesPorLogin($login, $senha); 999
+        // echo "$qtd_debates";
+         
         //$qtd_debates = $this->recuperarTodosDebatesPorLogin($login, $senha);
-        $usuario = $this->recuperarUsuario($login);
+        if($this->verificarLogin($login, $senha)){
+
+           
+            $usuario = $this->recuperarUsuario($login); 
+
+
+            $_SESSION['logon'] = true;
+            $_SESSION['login'] = $login;
+            $_SESSION['senha'] = $senha;
+            $_SESSION['idusuario'] = $usuario["idusuario"];
+            $_SESSION['primeironome'] = $usuario["primeironome"];
+            $this->login = $login;
+            $this->senha = $senha;
+
+            $this->cadastrarLog("efetuou login.", $usuario['idusuario']);
+            if (is_null($idpagina)) {
+                $_SESSION["msg"] = null;
+                $_SESSION["error"] = null;
+                header('location:' . $this->paginaMenu);
+            } else {
+                $_SESSION["msg"] = null;
+                $_SESSION["error"] = null;
+                header('location:' . $this->paginaMenu . "idpagina=" . $idpagina);
+            }
+        } 
+
+        else 
+        {
+            $_SESSION['logon'] = false;
+            $_SESSION["msg"] = null;
+//                $_SESSION["error"] = null;
+            //header('location:' . $this->paginaLogin . 'idm=600&erro=Usuario/senha inválido');
+            $_SESSION["error"] = "Login não realizado. <br>Verifique seus dados e tente novamente!!!!";
+            header('location:' . $this->paginaLogin . 'idm=600&erro=Usuario/senha inválido');
+        }
+    }
+
+
+
+    //VERSÃO 1
+    function efetuarLogin_old($login, $senha, $idpagina = null) {
+	
+        // $qtd_debates = $this->recuperarDebatesPorLogin($login, $senha); 999
+        // echo "$qtd_debates";
+         
+        //$qtd_debates = $this->recuperarTodosDebatesPorLogin($login, $senha);
+        $usuario = $this->recuperarUsuario($login); 
 
         if ($qtd_debates > 0) {   
         // if ($usuario != false) {
@@ -133,7 +186,8 @@ class sistemaDebate {
         $resultado = mysqli_query($this->conexao, $sql);
         if (mysqli_num_rows($resultado) > 0) {
             return true;
-        } else {
+        } 
+        else{
             return false;
         }
     }
@@ -285,7 +339,7 @@ class sistemaDebate {
 
         //busca na view
         $sql = "select idusuario
-		FROM  usuario_argumentador
+		FROM  participantes
 		where 
                 iddebate = $iddebate  ";
 
@@ -305,7 +359,7 @@ class sistemaDebate {
 
         //busca na view
         $sql = "select *
-		FROM  usuario_argumentador
+		FROM  participantes
 		where 
                 idgrupo = $idgrupo  ";
 
@@ -323,7 +377,7 @@ class sistemaDebate {
             }
             return $colecaoArgumentadores;
         } else {
-            echo mysqli_errno($this->conexao) . ": " . mysqli_error($this->conexao) . "\n";
+            // echo mysqli_errno($this->conexao) . ": " . mysqli_error($this->conexao) . "\n";
             return false;
         }
     }
@@ -401,6 +455,27 @@ class sistemaDebate {
         return false;
     }
 
+
+    function verificarLogin($login, $senha) {
+        $sql = "select idusuario,primeironome, sobrenome,senha,login,email,grupo
+        FROM  usuario
+        where login = '$login' and senha = '$senha'";
+
+        $resultado = mysqli_query($this->conexao, $sql);
+
+        if (mysqli_num_rows($resultado) > 0) {
+            
+            return true;
+        }
+        else{
+            return false;
+        }
+
+        
+    }
+
+
+
     function recuperarDebates($idgrupo) {
         $this->debates = null;
         $sql = "select d.iddebate,d.titulo, d.ativo, g.idgrupo, g.titulo as grupo_titulo
@@ -453,7 +528,7 @@ class sistemaDebate {
 
         //busca na view
         $sql = "select *
-		FROM  usuario_argumentador
+		FROM  participantes
 		where email = '$email' and
                 idgrupo = $idgrupo       ";
 
@@ -554,24 +629,29 @@ class sistemaDebate {
         $nome = trim($nome);
         $sobrenome = trim($sobrenome);
         $grupo = trim($grupo);
-        $senha = "12345";
+        $senha = "12345"; 
 
         $sql = "insert into usuario (primeironome, sobrenome, email,login,senha,grupo)
                 values ('$nome', '$sobrenome', '$email','$email','12345','$grupo')";
 
         $resultado = mysqli_query($this->conexao, $sql);
 
-        //  $id = mysqli_insert_id($this->conexao);
-        // $this->atualizarUsuarioSeq($id);
+        if (mysqli_affected_rows($this->conexao) > 0) 
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+        }
 
-        return $resultado;
     }
 
     /**
      * $_POST['nome'],($_POST['sobrenome'],($_POST['email'],($_POST['senha'],($_POST['grupo']);
      * @param <type> $iddebate
      */
-    function cadastrarTese($tese, $idebate, $idgrupo, $alias) {
+    function cadastrarTese($tese, $idebate, $idgrupo, $alias = "nenhum") {
 
         $tese = trim($tese);
         $alias = trim($alias);
@@ -638,8 +718,7 @@ class sistemaDebate {
            // }
             // die($dataFormatada);    
 
-
-            
+           
 
        
         return $dataFormatada;
@@ -661,9 +740,12 @@ class sistemaDebate {
                 
         $resultado = mysqli_query($this->conexao, $sql);
 
-        if (!$resultado) {
+        if (!$resultado) 
+        {
             return false;
-        } else {
+        } 
+
+        else {
 
             $id = mysqli_insert_id($this->conexao);
             // $this->atualizarGrupoSeq($id);
@@ -690,10 +772,16 @@ class sistemaDebate {
         $sql = "insert into debate ( titulo, ativo,cronogramagrupo,grupo_idgrupo)
                 values ( '$titulo', $ativo,1,$idgrupo)";
 
+
         $resultado = mysqli_query($this->conexao, $sql); //nao uso resultado
-        if (!$resultado) {
+
+        if (!$resultado) 
+        {
             return false;
-        } else {
+        } 
+        
+        else 
+        {
             $id = mysqli_insert_id($this->conexao);
             //  $this->atualizarDebateSeq($id);
 
@@ -1380,14 +1468,14 @@ class sistemaDebate {
 
         $resultado = mysqli_query($this->conexao, $sql);
 
-	//var_dump($resultado);
+	   //var_dump($resultado);
         if (mysqli_num_rows($resultado) > 0) {
 	
             for ($cont = 0; $dados = mysqli_fetch_array($resultado); $cont++) 
-	    {
+	        {
                 if (( $dados["idgrupo"] != 1) and ( $dados['ativo'] != 0)) 
-		{ 
-		    //grupo 1 - grupo para vincular o novo usuario ao admin
+		        { 
+		            //grupo 1 - grupo para vincular o novo usuario ao admin
 
                     $debate['iddebate'] = $dados["iddebate"];
                     $debate['titulo'] = trim($dados["titulo"]);
@@ -1400,12 +1488,14 @@ class sistemaDebate {
 
         } 
 	
-	else 
-	{
-		//print_r("mmmmmmmmmmmmMERDA: ".mysqli_num_rows($resultado));
-            return 0;
+    	else 
+    	{
+    		//print_r("mmmmmmmmmmmmMERDA: ".mysqli_num_rows($resultado));
+                return 0;
 
         }
+            
+
         return mysqli_num_rows($resultado);
     }
 
@@ -1435,7 +1525,7 @@ class sistemaDebate {
                 $debate['iddebate'] = $dados["iddebate"];
                 $debate['titulo'] = trim($dados["titulo"]);
                 $debate['ativo'] = $dados["ativo"];
-                $debate['idgrupo'] = $dados["idgrupo"];
+                $debate['idgrupo'] = $dados["grupo_idgrupo"];
 
                 $debates[] = $debate;
             }
@@ -2123,7 +2213,8 @@ class sistemaDebate {
             if ($this->validaFormRegistro()) {
 
                 if (!$this->verificarEmailExistente(trim($_POST['email']))) {
-                    if ($this->registrarNovoUsuario($_POST['nome'], $_POST['sobrenome'], $_POST['email'])) {
+                    
+                    if ($this->registrarNovoUsuario($_POST['nome'], $_POST['sobrenome'], $_POST['email'], "autoinscrição")) {
 
                         $textoCorpoEmail = "$nome, <br><br>Bem Vindo ao Sistema Debate de Teses (<a href='lied.inf.ufes.br/debate2'>acesse</a>) <br>  
                                             Seu Cadastro no sistema debate de teses foi realizado com sucesso!<br>
@@ -2137,26 +2228,59 @@ class sistemaDebate {
                                             Administrador.";
 
                         $ee = new EnvioEmail($email, "Bem-vindo ao Sistema Debate de Teses", $textoCorpoEmail);
-                        if ($ee->enviar()) {
-                            $_SESSION["msg"] = "Cadastro realizado com sucesso. Verifique seu e-mail.";
+                        
+                        if ($ee->enviar()) 
+                        {
+
+                            $_SESSION["msg"] = "Cadastro realizado com sucesso! A senha de acesso foi enviada para seu e-mail.";
                             $_SESSION["error"] = null;
-                        } else {
+                        } 
+
+                        else 
+                        {
 
                             $_SESSION["msg"] = null;
                             $_SESSION["error"] = "Erro inesperado (900): Identificamos problemas com o serviço de e-mail. O contato por e-mail com dados do convite não foi enviado<br>Faça contato com o administrador";
                         }
-                    } else {
-                        $msg = "Erro inesperado: 901"; // dados validados, email n cadastrado , erro inesperado                        
+
+                    } 
+                    else  // registrarNovoUsuario == false
+                    {
+                        $_SESSION["error"] = "Erro inesperado: 901"; // dados validados, email n cadastrado , erro inesperado    
+                        $_SESSION["msg"] = null;
+                        // header('location:' . $this->paginaLogin . '&erro=' . $msg);                    
                     }
-                } else {
+
+                } 
+                
+                else //verificarEmailExistente == false
+                {
                     $_SESSION["msg"] = null;
-                    $_SESSION["error"] = "Este e-mail já está sendo utilizado por algum usuário para acesso ao Sistema do Debate de Teses..";
-                    header('location:' . $this->paginaLogin . 'formAcao=2&erro=E-mail já está sendo utilizado');
+                    $_SESSION["error"] = "Seu registro não foi efetuado. <br>Este e-mail já foi cadastrado.";                    
                 }
-                $_SESSION["msg"] = null;
-                $_SESSION["error"] = "Cadastro não realizado. Preencha corretamente os dados de registro";
-                header('location:' . $this->paginaLogin . '&erro=' . $msg);
+
+                
+                // dentro/continua o IF (validaFormRegistro = true)
+                // $_SESSION["registro"] = "Cadastro realizado com sucesso! A senha de acesso foi enviada para seu e-mail.";              
+
             }
+            
+            else // $this->validaFormRegistro() == false
+            {
+
+                $_SESSION["error"] = "Seu cadastro não foi efetuado!. Preencha corretamente os dados de registro";
+                $_SESSION["msg"] = null;
+                // header('location:' . $this->paginaLogin . '&erro=' . $msg);
+
+            }
+
+
+                // $_SESSION["error"] = null;
+                // $_SESSION["error"] = null;
+                header('location:' . $this->paginaLogin);
+
+
+
         }
 
         //POST do Form login do index.php, para efetuar atenticação login
@@ -2472,7 +2596,7 @@ class sistemaDebate {
 
                 $idgrupoCadastrado = $this->cadastrarGrupo($_POST['titulo'], $_POST['dataini'], $_POST['datafim'], $usuario['idusuario']);
                 // die("aa!!!!!:".$idgrupoCadastrado);
-                $iddebateCadastrado = $this->cadastrarDebate($idgrupoCadastrado, $usuario['idusuario']);
+                $iddebateCadastrado = $this->cadastrarDebate($idgrupoCadastrado, $usuario['idusuario'], 0);
                 
                 if ($iddebateCadastrado != false) {
                     if (($this->cadastrarArgumentador($usuario['idusuario'], $iddebateCadastrado)) && ($this->cadastrarMediador($usuario['idusuario'], $iddebateCadastrado))) {
@@ -2493,15 +2617,25 @@ class sistemaDebate {
         }
     }
 
-    function registrarNovoUsuario($nome, $sobrenome, $email) {
-        $this->cadastrarUsuario($nome, $sobrenome, $email, "12345", "nenhum");
-        $user = $this->recuperarUsuario($email);
-        $iddebate = $this->cadastrarDebate(1, $user['idusuario'], 0);
-        if ($this->cadastrarMediador($user['idusuario'], $iddebate)) {
-            return true;
-        } else {
+    function registrarNovoUsuario($nome, $sobrenome, $email, $grupo) {
+
+       if( $this->recuperarUsuario($email))
+       {
             return false;
-        }
+       }
+
+       else
+       {
+            return $this->cadastrarUsuario($nome, $sobrenome, $email, "12345", $grupo );
+       }
+
+        // $iddebate = $this->cadastrarDebate(1, $user['idusuario'], 0); 9999
+
+        // if ($this->cadastrarMediador($user['idusuario'], $iddebate)) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
     }
 
     function listBoxRevisor($idgrupo, $iddebate, $nomevar, $idpagina, $idacao) {
@@ -2683,8 +2817,30 @@ class sistemaDebate {
                 $debatesAtivos[] = $debate;
             }
         }
+
         return $debatesAtivos;
     }
+
+
+    function removerPaginaMediador($colecaoDebates, $idusuario_mediador) {
+
+
+        // print_r($colecaoDebates);
+        // echo "<br>";
+        // print_r($idusuario_mediador);
+        // die(" aaaaa");
+
+
+        foreach ($colecaoDebates as $debate) {
+
+            if ($debate["idusuario"] != $idusuario_mediador) {
+                $debatesAtivos[] = $debate;
+            }
+        }
+        return $debatesAtivos;
+    }
+
+
 
     /*
      * A função é remover os debates que não são do grupo desejado, passado por parametro

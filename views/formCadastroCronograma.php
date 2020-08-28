@@ -33,18 +33,7 @@ $datas = $dd->recuperarCronogramaPorGrupo($idgrupo,TRUE);
                 <h4 class="page-header"> Faça a edição dos períodos (data início e fim) de postagem para cada fase abaixo: </h4>
 
                 <form class="form-horizontal" role="form" name="cadastro" id="defaultForm"  method="post" action="<?php echo "menu.php?idpagina=13&idAcao=2008&idgrupo=$idgrupo"; ?>" >
-                    <fieldset>
-                        <div class="form-group has-error has-feedback">
-                            <label class="col-sm-2 control-label">Posicionamentos Inicial</label>
-                            <div class="col-sm-2">
-                                <input type="text" id="input_date1" class="form-control" placeholder="Data Início" name="teseini" value="<?php  echo $datas["teseini"];  ?>">
-                                <span class="fa fa-calendar txt-danger form-control-feedback"></span>
-                            </div>
-                            <div class="col-sm-2">
-                                <input type="text" id="input_date2" class="form-control" placeholder="Data Fim" name="tese" value="<?php  echo $datas["tese"];  ?>">
-                                <span class="fa fa-calendar txt-danger form-control-feedback"></span>
-                            </div>
-                        </div>          
+                    <fieldset>        
                         <div class="form-group has-error has-feedback">
                             <label class="col-sm-2 control-label">Argumentação</label>
                             <div class="col-sm-2">
@@ -138,7 +127,7 @@ $datas = $dd->recuperarCronogramaPorGrupo($idgrupo,TRUE);
         // Add slider for change test input length
         FormLayoutExampleInputLength($(".slider-style"));
         
-        $('#input_date1').datepicker({dateFormat: "dd/mm/yy"});
+        // $('#input_date1').datepicker({dateFormat: "dd/mm/yy"});
         $('#input_date2').datepicker({dateFormat: "dd/mm/yy"});
         $('#input_date3').datepicker({dateFormat: "dd/mm/yy"});
         $('#input_date4').datepicker({dateFormat: "dd/mm/yy"});
@@ -151,7 +140,7 @@ $datas = $dd->recuperarCronogramaPorGrupo($idgrupo,TRUE);
         $('#input_date11').datepicker({dateFormat: "dd/mm/yy"});     
 
         // Initialize datepicker
-        $('#input_date1').datepicker({setDate: new Date()});
+        // $('#input_date1').datepicker({setDate: new Date()});
         $('#input_date2').datepicker({setDate: new Date()});
         $('#input_date3').datepicker({setDate: new Date()});
         $('#input_date4').datepicker({setDate: new Date()});

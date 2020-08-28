@@ -149,11 +149,18 @@ if ( ($_GET['formAcao'] == 4) ) {
 
                 </div>
                 <!--End Content-->
-
+            
             </div>
+            
         </div>
 
-        <?php apresentaNotificacao(); ?>
+        
+
+        <?php     
+
+        apresentaNotificacao(); 
+
+        ?>
         <!--End Container-->
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <!--<script src="http://code.jquery.com/jquery.js"></script>-->

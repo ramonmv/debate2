@@ -200,3 +200,10 @@ if (isset($_GET['idusuarioLog'])) {
 
 </body>
 </html>
+
+<?php
+
+    $_SESSION["error"] = null;
+    $_SESSION["msg"] = null;
+
+?>

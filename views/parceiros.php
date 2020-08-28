@@ -14,7 +14,7 @@
                                 </p>
                             </div>
                             <div class="box-content">
-                                <h3><code>Designer</code></h3>
+                                <h3><code>Pesquisador e Desenvolvedor</code></h3>
                                 <p>                                      
                                 <pre>Responsável: <strong> Ramon Rosa Maia Vieira Junior</strong><br/>Contato: ramonwaia @ gmail . com<br/>Lattes: <a href='http://lattes.cnpq.br/4750852264888520' > lattes.cnpq.br/4750852264888520</a>
                                 </pre>

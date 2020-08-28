@@ -37,7 +37,7 @@ $souMediadorAlgumDebate = $dd->verificarMediadorColecaoDebate($login, $senha, $m
                 <thead>
                     <tr>
                         <th width="20%"> Debates</th>
-                        <?php if (($souMediadorAlgumDebate == 1)) { ?>        <th align="center" width="20%"> Cronograma Individual</th>      <?php }// verifica se o usuário é me3diador em alguma debate individual, se caso sim , cria uma coluna na tabela para que possa colocar o link do cronograma     ?>
+                        <?php if (($souMediadorAlgumDebate == true)) { ?>        <th align="center" width="20%"> Cronograma Individual</th>      <?php }// verifica se o usuário é me3diador em alguma debate individual, se caso sim , cria uma coluna na tabela para que possa colocar o link do cronograma     ?>
                         <th align="center" width="12%"> Meu Perfil</th>
                         <th align="center" width="49%"> Revisores <?php abilitaDelegarTodosRevisores($debate['iddebate'], $dd, $param); ?></th>                  
                     </tr>

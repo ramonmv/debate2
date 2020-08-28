@@ -37,7 +37,7 @@ echo "<br>";
 echo "<br>";
 echo "<br>";
 
-$link = mysqli_connect("mysql", "ramon", "strcomp,,Amadis13", "debate");
+$link = mysqli_connect("mysql", "root", "strcomp,,Amadis13", "debate");
 
 if (!$link) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;
@@ -66,7 +66,7 @@ echo "<br>";
 echo "<br>";
 echo "<br>";
 
-$link = mysqli_connect("mysql", "root", "Amadis13strcomp,,", "debate");
+$link = mysqli_connect("mysql", "ramon", "Amadis13strcomp,,", "debate");
 
 if (!$link) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;

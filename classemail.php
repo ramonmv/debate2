@@ -52,7 +52,7 @@ use PHPMailer\PHPMailer\SMTP;
 
 Class EnvioEmail
 {
-	public $erro=null;
+    public $erro=null;
     public $mail;
         /**
          *
@@ -60,9 +60,9 @@ Class EnvioEmail
          * @param <type> $assunto
          * @param <type> $corpo
          */
-	function EnvioEmail($emailDestino,$assunto, $corpo )
-	{
-		// return 0; 				
+    function EnvioEmail($emailDestino,$assunto, $corpo )
+    {
+        // return 0;                
         // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
         // $mail->isSMTP();                                            // Send using SMTP
         // $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
@@ -80,51 +80,52 @@ Class EnvioEmail
         // $mail->send();
 
         //date_default_timezone_set('America/Toronto');
-		$this->mail = new PHPMailer(true);
-		$this->mail->IsSMTP(); // Define que a mensagem será SMTP
+        $this->mail = new PHPMailer(true);
+        $this->mail->IsSMTP(); // Define que a mensagem será SMTP
         $this->mail->CharSet = "UTF-8";
         // $this->mail->SMTPDebug   = SMTP::DEBUG_SERVER;                  // enable SMTP authentication
-        // $this->mail->SMTPAuth   = true;                  // enable SMTP authentication
-        $this->mail->Host       = 'relay.ufrgs.br';      // sets GMAIL as the SMTP server
-        $this->mail->Port       = 25;                   // set the SMTP port for the GMAIL server
-        // $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // set the SMTP port for the GMAIL server
+        $this->mail->SMTPAuth   = true;                  // enable SMTP authentication
+        $this->mail->Host       = 'smtp.gmail.com';      // sets GMAIL as the SMTP server
+        $this->mail->Port       = 587;                   // set the SMTP port for the GMAIL server
+        $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // set the SMTP port for the GMAIL server
         
-        // $this->mail->Username   = "peadfaced@gmail.com";  // GMAIL username
-        // $this->mail->Password   = "peadfaced.";            // GMAIL password
+        $this->mail->Username   = "ramon.ead@gmail.com";  // GMAIL username
+        $this->mail->Password   = "strcomp,,";            // GMAIL password
 
         
-        $this->mail->SetFrom('naoresponda@servidor.nuvem.ufrgs.br', 'naoresponda@servidor.nuvem.ufrgs.br');
+        $this->mail->SetFrom('peadfaced@gmail.com', 'Suporte Debate de Teses');
         // $this->mail->addReplyTo('peadfaced@gmail.com', 'Suporte Debate de Teses');
 
         $this->mail->Subject    = $assunto;
-        $this->mail->AltBody    = "Para visualizar esta mensagem, é necessário habilitar o uso do HTML, ou utilizar um webmail compatível "; // optional, comment out and test
+        $this->mail->AltBody    = "Para visualizar esta mensagem, é necessário um habilitar o uso do HTML, ou utilizar um webmail compatível "; // optional, comment out and test
 
         // $this->mail->MsgHTML($corpo);
         $this->mail->Body = $corpo;
                 
-        $this->mail->addAddress($emailDestino, $emailDestino);	
+        $this->mail->addAddress($emailDestino, $emailDestino);  
         $this->mail->isHTML(true);
-		
-	}
-	
+        
+    }
+    
 
-	function enviar()
-	{		
+    function enviar()
+    {       
         // Envia o e-mail
-		$enviado = $this->mail->Send();	
-		// Exibe uma mensagem de resultado
-		if ($enviado)
+        $enviado = $this->mail->Send(); 
+        // Exibe uma mensagem de resultado
+        if ($enviado)
         {
-		    return 1;
-		} 
-		else 
-		{	
-		  // echo "Mailer Error: " . $this->mail->ErrorInfo;
-			return 0; 
-		}
-	}
+            return 1;
+        } 
+        else 
+        {   
+          // echo "Mailer Error: " . $this->mail->ErrorInfo;
+            return 0; 
+        }
+    }
 
 }
 
 
 ?>
+

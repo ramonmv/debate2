@@ -5,10 +5,10 @@
 
 //   LOCALHOST ===============================================================================================================
 //$hostBD = "localhost"; $userBD = "root"; $senhaBD = "password"; $databaseBD = "debateteses";
-$hostBD = "localhost"; $userBD = "root"; $senhaBD = "password"; $databaseBD = "debate";
+$hostBD = "localhost"; $userBD = "ramon"; $senhaBD = "password"; $databaseBD = "debate";
 //$host = "http://192.168.0.102/debatelocal"; 
 // $host = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-$diretorio = 'sites/debate';
+$diretorio = 'debate';
 
 $host = 'http://' . $_SERVER['SERVER_NAME'].'/'.$diretorio ;
 

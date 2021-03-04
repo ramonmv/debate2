@@ -11,6 +11,7 @@ $hostBD = "mysql"; $userBD = "root"; $senhaBD = "Amadis13strcomp,,"; $databaseBD
 // $diretorio = 'sites/debate';
 $diretorio = 'debate';
 
+
 $host = 'http://' . $_SERVER['SERVER_NAME'].'/'.$diretorio ;
 
 
